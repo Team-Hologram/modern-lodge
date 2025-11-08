@@ -79,7 +79,7 @@ const LodgeSelection: React.FC<LodgeSelectionProps> = ({ onNext }) => {
               className={`group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-2xl border-2 ${
                 selectedLodgeId === lodge.id
                   ? "border-yellow-500 shadow-xl shadow-yellow-500/20"
-                  : "border-white/10 bg-white/5 backdrop-blur-sm"
+                  : "border-black/10 bg-black/5 backdrop-blur-sm"
               }`}
               onClick={() => handleSelectLodge(lodge.id)}
             >
@@ -136,7 +136,7 @@ const LodgeSelection: React.FC<LodgeSelectionProps> = ({ onNext }) => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                <div className="flex items-center justify-between pt-4 border-t border-black/10">
                   <div>
                     <div className="text-2xl font-bold text-black">
                       {formatCurrency(lodge.price)}

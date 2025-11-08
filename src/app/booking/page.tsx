@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams } from "next/navigation";
 import BookingTimeline from "@/components/booking/BookingTimeline";
 import LodgeSelection from "@/components/booking/LodgeSelection";
 import DateSelection from "@/components/booking/DateSelection";
@@ -21,21 +20,42 @@ export default function BookingPage() {
 
 function BookingExperience() {
   const [currentStep, setCurrentStep] = useState(0);
-  const searchParams = useSearchParams();
-  const lodgeId = searchParams.get("lodge");
 
   const steps = [
-    { id: 0, name: "Select Lodge", component: LodgeSelection },
-    { id: 1, name: "Choose Dates", component: DateSelection },
-    { id: 2, name: "Guest Details", component: GuestDetails },
-    { id: 3, name: "Payment", component: PaymentSection },
-    { id: 4, name: "Confirmation", component: BookingConfirmation },
+    { id: 0, name: "Select Lodge" },
+    { id: 1, name: "Choose Dates" },
+    { id: 2, name: "Guest Details" },
+    { id: 3, name: "Payment" },
+    { id: 4, name: "Confirmation" },
   ];
 
-  const CurrentStepComponent = steps[currentStep].component;
+  const handleNext = () => {
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
+  const handleBack = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return <LodgeSelection onNext={handleNext} />;
+      case 1:
+        return <DateSelection onNext={handleNext} onBack={handleBack} />;
+      case 2:
+        return <GuestDetails onNext={handleNext} onBack={handleBack} />;
+      case 3:
+        return <PaymentSection onNext={handleNext} onBack={handleBack} />;
+      case 4:
+        return <BookingConfirmation />;
+      default:
+        return <LodgeSelection onNext={handleNext} />;
+    }
+  };
 
   return (
-    <div className="min-h-screen pt-20 bg-white/5-to-br from-earth-900 via-earth-800 to-earth-900 relative overflow-hidden">
+    <div className="min-h-screen pt-20 from-earth-900 via-earth-800 to-earth-900 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-earth-500 rounded-full filter blur-3xl animate-pulse-slow" />
@@ -55,12 +75,7 @@ function BookingExperience() {
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <CurrentStepComponent
-              onNext={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))}
-              onBack={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-              currentStep={currentStep}
-              totalSteps={steps.length}
-            />
+            {renderStep()}
           </motion.div>
         </AnimatePresence>
       </div>

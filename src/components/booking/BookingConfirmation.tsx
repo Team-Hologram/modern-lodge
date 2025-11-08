@@ -64,7 +64,7 @@ const BookingConfirmation: React.FC = () => {
                     <h2 className="text-2xl font-bold text-black mb-2">
                       {bookingData.lodge.name}
                     </h2>
-                    <div className="flex items-center text-earth-700 mb-1">
+                    <div className="flex items-center text-earth-600 mb-1">
                       <MapPin className="h-4 w-4 mr-2" />
                       {bookingData.lodge.location}
                     </div>
